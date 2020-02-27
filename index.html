@@ -8,8 +8,8 @@
     <script>
    var config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 800,
+    /* width: 800,
+    height: 800, */
     physics: {
         default: 'arcade',
         arcade: {
@@ -24,13 +24,15 @@
     }
 };
 
+var tam = 9000;
+
 
 var game = new Phaser.Game(config);
 
 function preload ()
 {
     
-    this.load.image('fondo', 'assets/fondo.png');
+   
     this.load.image('comida', 'assets/comida.png');
     this.load.spritesheet('player', 
         'assets/player.png',
@@ -41,19 +43,32 @@ function preload ()
 var platforms;
 function create ()
 {
-    this.add.image(400, 400, 'fondo');
-    this.add.image(Math.floor(Math.random() * 800), Math.floor(Math.random() * 800), 'comida');
-    this.add.image(Math.floor(Math.random() * 800), Math.floor(Math.random() * 800), 'comida');
-    this.add.image(Math.floor(Math.random() * 800), Math.floor(Math.random() * 800), 'comida');
-    this.add.image(Math.floor(Math.random() * 800), Math.floor(Math.random() * 800), 'comida');
-    this.add.image(Math.floor(Math.random() * 800), Math.floor(Math.random() * 800), 'comida');
+    
+this.cameras.main.setBackgroundColor('#f8dad3')
 
-player = this.physics.add.sprite(400, 400, 'player');
+
+
+    //  Set the camera and physics bounds 
+    this.cameras.main.setBounds(0, 0, tam, tam);
+    this.physics.world.setBounds(0, 0, tam, tam);
+    for (i=0;i<100;i++){
+    this.add.image(Math.floor(Math.random() * tam), Math.floor(Math.random() * tam), 'comida');
+    this.add.image(Math.floor(Math.random() * tam), Math.floor(Math.random() * tam), 'comida');
+    this.add.image(Math.floor(Math.random() * tam), Math.floor(Math.random() * tam), 'comida');
+    this.add.image(Math.floor(Math.random() * tam), Math.floor(Math.random() * tam), 'comida');
+    this.add.image(Math.floor(Math.random() * tam), Math.floor(Math.random() * tam), 'comida');
+
+    }
+
+
+player = this.physics.add.sprite(tam/2, tam/2, 'player');
 player.setBounce(0.0);
 player.setCollideWorldBounds(true);
 
 this.physics.add.collider(player, platforms);
 cursors = this.input.keyboard.createCursorKeys();
+
+this.cameras.main.startFollow(player);
 }
 
 function update ()
@@ -94,6 +109,11 @@ else
  
 }
 }
+
+
+
+
+
     </script>
 
 </body>
